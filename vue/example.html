@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue Example</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+  <section class="section">
+    <div class="container">
+      <div class="columns">
+        <div class="column" v-for="(note, index) in notifications" :key="index"></div>
+          <div class="notification is-warning is-light">
+            <button class="delete" @click="removeNotification(index)"></button>
+            {{ note.message }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const { createApp, ref } = Vue;
+
+    const app = createApp({
+      setup() {
+        const notifications = ref([
+          { message: 'this is a primary notification #1' },
+          { message: 'this is a primary notification #2' },
+          { message: 'this is a primary notification #3' },
+          { message: 'this is a primary notification #4' },
+        ]);
+
+        function removeNotification(index) {
+          notifications.value.splice(index, 1);
+        }
+
+        const isOpen = ref(false);
+        function toggleModal() {
+          isOpen.value = !isOpen.value;
+        }
+
+        return {
+          notifications,
+          removeNotification, isOpen, toggleModal
+        };
+      }
+    });
+
+    app.mount('body');
+  </script>
+</body>
+</html>
